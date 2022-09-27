@@ -1,0 +1,149 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE MODE SYSTEM "xmode.dtd">
+
+<MODE>
+	<PROPS>
+		<PROPERTY NAME="lineComment" VALUE="#" />
+
+		<PROPERTY NAME="wordBreakChars" VALUE=",{}" />
+
+		<PROPERTY NAME="indentOpenBrackets" VALUE="{" />
+		<PROPERTY NAME="indentCloseBrackets" VALUE="}" />
+		<PROPERTY NAME="indentNextLine" VALUE="\s*(try)\s*" />
+		<PROPERTY NAME="lineUpClosingBracket" VALUE="true" />
+
+
+	</PROPS>
+
+	<RULES ESCAPE="\" IGNORE_CASE="FALSE" HIGHLIGHT_DIGITS="TRUE">
+
+		<SPAN TYPE="LITERAL1" NO_LINE_BREAK="TRUE">
+			<BEGIN>"</BEGIN>
+			<END>"</END>
+		</SPAN>
+		<SPAN TYPE="LITERAL1" NO_LINE_BREAK="TRUE">
+			<BEGIN>'</BEGIN>
+			<END>'</END>
+		</SPAN>
+
+		<EOL_SPAN TYPE="COMMENT1">#</EOL_SPAN>
+
+		<SEQ TYPE="OPERATOR">=</SEQ>
+		<SEQ TYPE="OPERATOR">}</SEQ>
+		<SEQ TYPE="OPERATOR">{</SEQ>
+		<SEQ TYPE="OPERATOR">)</SEQ>
+		<SEQ TYPE="OPERATOR">(</SEQ>
+		<SEQ TYPE="OPERATOR">;</SEQ>
+
+		<KEYWORDS>
+			<!-- Top level stuff -->
+			<KEYWORD1>verb</KEYWORD1>
+			<KEYWORD1>noun</KEYWORD1>
+			<KEYWORD1>act</KEYWORD1>
+			<KEYWORD1>timreg</KEYWORD1>
+			<KEYWORD1>roomreg</KEYWORD1>
+			<KEYWORD1>flag</KEYWORD1>
+			<KEYWORD1>room</KEYWORD1>
+			<KEYWORD1>item</KEYWORD1>
+			<KEYWORD1>alias</KEYWORD1>
+
+			<KEYWORD1>n_to</KEYWORD1>
+			<KEYWORD1>s_to</KEYWORD1>
+			<KEYWORD1>e_to</KEYWORD1>
+			<KEYWORD1>w_to</KEYWORD1>
+			<KEYWORD1>u_to</KEYWORD1>
+			<KEYWORD1>d_to</KEYWORD1>
+
+			<KEYWORD1>void</KEYWORD1>
+			<KEYWORD1>limbo</KEYWORD1>
+			<KEYWORD1>player</KEYWORD1>
+			<KEYWORD1>rm_Zero</KEYWORD1>
+
+			<KEYWORD1>auto</KEYWORD1>
+			<KEYWORD1>initial</KEYWORD1>
+			<KEYWORD1>treasure</KEYWORD1>
+			<KEYWORD1>word_length</KEYWORD1>
+			<KEYWORD1>light_time</KEYWORD1>
+			<KEYWORD1>max_load</KEYWORD1>
+			<KEYWORD1>title_screen</KEYWORD1>
+
+			<!-- IF's -->
+			<KEYWORD2>has</KEYWORD2>
+			<KEYWORD2>here</KEYWORD2>
+			<KEYWORD2>avail</KEYWORD2>
+			<KEYWORD2>!here</KEYWORD2>
+			<KEYWORD2>!has</KEYWORD2>
+			<KEYWORD2>!avail</KEYWORD2>
+			<KEYWORD2>exists</KEYWORD2>
+			<KEYWORD2>!exists</KEYWORD2>
+			<KEYWORD2>in</KEYWORD2>
+			<KEYWORD2>!in</KEYWORD2>
+			<KEYWORD2>set</KEYWORD2>
+			<KEYWORD2>!set</KEYWORD2>
+			<KEYWORD2>something</KEYWORD2>
+			<KEYWORD2>nothing</KEYWORD2>
+			<KEYWORD2>le</KEYWORD2>
+			<KEYWORD2>gt</KEYWORD2>
+			<KEYWORD2>eq</KEYWORD2>
+			<KEYWORD2>moved</KEYWORD2>
+			<KEYWORD2>!moved</KEYWORD2>
+
+			<!-- Commands -->
+			<KEYWORD2>cls</KEYWORD2>
+			<KEYWORD2>pic</KEYWORD2>
+			<KEYWORD2>inv</KEYWORD2>
+			<KEYWORD2>!inv</KEYWORD2>
+			<KEYWORD2>ignore</KEYWORD2>
+			<KEYWORD2>success</KEYWORD2>
+			<KEYWORD2>try</KEYWORD2>
+			<KEYWORD2>get</KEYWORD2>
+			<KEYWORD2>drop</KEYWORD2>
+			<KEYWORD2>goto</KEYWORD2>
+			<KEYWORD2>zap</KEYWORD2>
+			<KEYWORD2>die</KEYWORD2>
+			<KEYWORD2>move</KEYWORD2>
+			<KEYWORD2>quit</KEYWORD2>
+			<KEYWORD2>.score</KEYWORD2>
+			<KEYWORD2>.inv</KEYWORD2>
+			<KEYWORD2>refill</KEYWORD2>
+			<KEYWORD2>save</KEYWORD2>
+			<KEYWORD2>steal</KEYWORD2>
+			<KEYWORD2>same</KEYWORD2>
+			<KEYWORD2>nop</KEYWORD2>
+			<KEYWORD2>.room</KEYWORD2>
+			<KEYWORD2>.timer</KEYWORD2>
+			<KEYWORD2>timer</KEYWORD2>
+			<KEYWORD2>.noun</KEYWORD2>
+			<KEYWORD2>.noun_nl</KEYWORD2>
+			<KEYWORD2>.nl</KEYWORD2>
+			<KEYWORD2>delay</KEYWORD2>
+			<KEYWORD2>end</KEYWORD2>
+			<KEYWORD2>on</KEYWORD2>
+			<KEYWORD2>off</KEYWORD2>
+			<KEYWORD2>add</KEYWORD2>
+			<KEYWORD2>sub</KEYWORD2>
+			<KEYWORD2>swap</KEYWORD2>
+			<KEYWORD2>has</KEYWORD2>
+			<KEYWORD2>has</KEYWORD2>
+			<KEYWORD2>has</KEYWORD2>
+
+			<!-- Tags -->
+			<LITERAL2>north</LITERAL2>
+			<LITERAL2>south</LITERAL2>
+			<LITERAL2>east</LITERAL2>
+			<LITERAL2>west</LITERAL2>
+			<LITERAL2>up</LITERAL2>
+			<LITERAL2>down</LITERAL2>
+
+			<LITERAL2>go</LITERAL2>
+			<LITERAL2>get</LITERAL2>
+			<LITERAL2>drop</LITERAL2>
+
+			<LITERAL2>light</LITERAL2>
+			<LITERAL2>night</LITERAL2>
+			<LITERAL2>runout</LITERAL2>
+		</KEYWORDS>
+
+	</RULES>
+</MODE>

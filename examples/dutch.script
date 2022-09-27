@@ -1,0 +1,45 @@
+get revolver
+get matchbook
+read matchbook
+get bottle
+call gozer
+get torch
+light torch
+drop matchbook
+n
+whistle bottle
+drop bottle
+w
+get shovel
+e
+n
+d
+get bullets
+w
+shoot wolf
+drop revolver
+drop bullets
+drop shovel
+e
+e
+d
+get diamond
+turn wheel
+u
+w
+w
+get shovel
+d
+dig
+get nugget
+u
+e
+u
+get ruby
+u
+s
+call gozer
+drop ruby
+drop diamond
+drop nugget
+

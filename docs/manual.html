@@ -1,0 +1,911 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>ScottCom v2.03 -- Game Writers Manual</title>
+
+
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+
+  <style type="text/css">
+/*<![CDATA[*/
+<!--
+body {background:black;margin: 0px;font-family: Verdana, Arial, sans-serif;color: black;}
+.title {font-family: Verdana, Arial, sans-serif;color: white;font-size:42px;margin-left:20px;margin-bottom:10px;}
+.links {font-family: Verdana, Arial, sans-serif;font-size:11px;}
+.code {font-family: Courier New, Courier, monospace; background:lightblue; font-size: 13px}
+A.links:hover {color:white;}
+A {font-weight:bold;text-decoration:none;}
+A:hover {color:red;}
+.date {font-family: Verdana, Arial, sans-serif;color: black;font-size:16px;font-weight:bold;margin:10px;}
+.posts {font-family: Verdana, Arial, sans-serif;color: black;font-size:13px;margin:10px;margin-top:0px;}
+.byline {font-family: Verdana, Arial, sans-serif;color: #999999;font-size:11px;}
+-->
+/*]]>*/
+  </style>
+</head>
+
+<body style="background-color: rgb(102, 102, 102);" alink="red" link="#336699" marginheight="0" marginwidth="0" vlink="#003366">
+
+<div style="text-align: center;"><br>
+
+<table border="0" cellpadding="0" cellspacing="0" width="95%">
+
+  <tbody>
+
+    <tr>
+
+      <td colspan="2" bgcolor="#336699" height="65" valign="bottom">
+      <div class="title"><strong>ScottCom v2.03 --
+Game Writers
+Manual</strong></div>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td align="right" bgcolor="#cccccc" valign="top" width="20%"><br>
+
+      <div class="posts"><strong>Index</strong><br>
+
+      <hr>
+      <div class="links">
+      <p><a href="#General"><strong>General</strong></a></p>
+
+      <p><a href="#Nouns"><strong>Nouns</strong></a></p>
+
+      <p><a href="#Verbs"><strong>Verbs</strong></a></p>
+
+      <p><a href="#Rooms"><strong>Rooms</strong></a></p>
+
+      <p><a href="#Treasure%20Room"><strong>Treasure
+Room</strong></a></p>
+
+      <p><a href="#Initial%20Start%20Room"><strong>Initial
+Start
+Room</strong></a></p>
+
+      <p><a href="#Items"><strong>Items</strong></a></p>
+
+      <p><a href="#How%20items%20are%20placed"><strong>How
+Items are
+Placed</strong></a></p>
+
+      <p><a href="#The%20Torch"><strong>The
+Torch</strong></a></p>
+
+      <p><a href="#Light%20Time"><strong>Light
+Time</strong></a></p>
+
+      <p><a href="#Max%20Carried"><strong>Max
+Carried</strong></a></p>
+
+      <p><a href="#Treasures"><strong>Treasures</strong></a></p>
+
+      <p><a href="#Code"><strong>Code</strong></a></p>
+
+      <p><a href="#Hints"><strong>Hints</strong></a></p>
+
+      <p><a href="#Timers"><strong>Timers</strong></a></p>
+
+      <p><a href="#Flags"><strong>Flags</strong></a></p>
+
+      <p><a href="#Strings"><strong>Strings</strong></a></p>
+
+      <p><a href="#Reference"><strong>Reference</strong></a></p>
+
+
+      <hr></div>
+
+      </div>
+
+      </td>
+
+      <td bgcolor="white">
+
+
+      <div style="text-align: left;" class="posts">
+      <h2>Overview</h2>
+
+      <div style="margin-left: 2em;">
+      <p>This is a basic manual for ScottCom v2.02</p>
+
+      <p>ScottCom is a compiler that creates game files for use
+on the TI99/4A
+Scott Adams Adventure module, or for playing on the Bunyon interpreter.</p>
+
+      <p>The limitations herein are restrictions imposed by the
+original TI99/4A
+Adventure Module.</p>
+
+      </div>
+
+      <a name="General" id="General"></a>
+      <h2>General</h2>
+
+      <div style="margin-left: 2em;">A standard game
+consists of two basic things,
+rooms and items.
+      <p>Rooms must be forward declared before you can reference
+them in code.</p>
+
+      <p>The directional nouns must be declared before any other
+noun.</p>
+
+      <p>The verbs for GO, DROP, and GET are specially handled by
+the driver and
+they must be declared before any other verb.</p>
+
+      </div>
+
+      <a name="Nouns" id="Nouns"></a>
+      <h2>Nouns</h2>
+
+      <div style="margin-left: 2em;">Nouns are declared as
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>noun word, synonym, ..., synonym;</td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      <p>eg:</p>
+
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>noun knife;</td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      <p>or</p>
+
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>noun knife, machete, blade, boxcutter;</td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      <p>The interpreter expects certain nouns to be in a certain
+position in the
+dictionary so its best practice to declare them right at the start.</p>
+
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>
+            <pre>noun(north) north;<br>noun(south) south;<br>noun(east) east;<br>noun(west) west;<br>noun(up) up;<br>noun(down) down;</pre>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      <p>The interpreter itself handles n/s/e/w as synonyms
+internally so you dont
+need to declare them.</p>
+
+      </div>
+
+      <a name="Verbs" id="Verbs"></a>
+      <h2>Verbs</h2>
+
+      <div style="margin-left: 2em;">Verbs are declared
+just like nouns;
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>verb word, synonym, ..., synonym;</td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      <p>eg:</p>
+
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>verb inventory, inv, i;</td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      <p>Where inv and i and synonyms for inventory</p>
+
+      <p>The interpreter expects some verbs to be at a certain
+position in the
+dictionary.</p>
+
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>
+            <pre>verb(go) go;<br>verb(drop) drop;<br>verb(get) get, take;</pre>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      </div>
+
+      <a name="Rooms" id="Rooms"></a>
+      <h2>Rooms</h2>
+
+      <div style="margin-left: 2em;">Rooms are simple
+creations;
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>room [INTERNAL_ROOM_NAME] "DESCRIPTION", [exit];</td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      <p>where exit is defined as "n_to", "s_to",
+"e_to", "w_to", "u_to", "d_to"</p>
+
+      <p>example;</p>
+
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>
+            <pre>room rm_AppleOrchard<br> "Rows opon rows of neatly planted apple trees span the field.",<br> s_to rm_FarmYard,<br> e_to rm_AppleOrchard,<br> w_to rm_AppleOrchard,<br> n_to rm_AppleOrchard;</pre>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      <p>Remember to close off the last with a ";" and separate
+all with
+commas.</p>
+
+      <p>If your room description starts with "I'm in a", it will
+be
+removed by the compiler, as the interpreter has a special code to print
+this
+(and save space in the game).</p>
+
+      <p>The last room in the game is the "dead" room, where you
+go when
+you die.</p>
+
+      </div>
+
+      <a name="Treasure Room"></a>
+      <h2>Treasure Room</h2>
+
+      <div style="margin-left: 2em;">Most scott adams
+games were about storing
+treasures in a certain location. This location is defined with the
+command
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>treasure = room_name;</td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      <p>The room must exist before you can define it as a
+treasure room.</p>
+
+      </div>
+
+      <a name="Initial Start Room"></a>
+      <h2>Initial Start Room</h2>
+
+      <div style="margin-left: 2em;">Just like marking a
+treasure room, you do the
+same for the start location,
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>initial = room_name;</td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      <p>Same conditions apply, the room must be pre-defined.</p>
+
+      </div>
+
+      <a name="Items" id="Items"></a>
+      <h2>Items</h2>
+
+      <div style="margin-left: 2em;">Items are things a
+player can carry around with
+them. They are defined as;
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>item [INTERNAL_ITEM_NAME](NOUN) "ITEM
+DESCRIPTION"
+[OPTIONAL_START_ROOM];</td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      <p>Lets create a simple apple.</p>
+
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>item itm_Apple "A shiny red delicious" void;</td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      <p>In order for it to be of any use in the game, we need to
+attach the apple
+to a noun.</p>
+
+      <p>First, lets declare the noun.</p>
+
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>
+            <pre>noun apple;<br>^^^^^^^^^^^<br><br>item itm_Apple (apple) "A shiny red delicious" void;<br> ^^^^^^^</pre>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      <p>This means, when a player types "GET APPLE" the game
+knows how
+to connect the text "apple" to the item itm_Apple.</p>
+
+      </div>
+
+      <a name="How items are placed"></a>
+      <h2>How items are placed</h2>
+
+      <div style="margin-left: 2em;">Items are placed into
+rooms several ways, you
+can move them via code, or you can place them in the source definition.
+      <p>Using our apple example;</p>
+
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>
+            <pre>noun apple;<br>item itm_Apple (apple) "A shiny red delicious" void;</pre>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      <p>the "void" at the end, tells the compiler to start the
+apple in
+the void, a non-existant room thats used as a storage cabinet, it means
+the
+item does not exist in the game.</p>
+
+      <p>You can replace the "void" for an internal room name,
+providing
+that room has already been described.</p>
+
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>
+            <pre>room rm_AppleOrchard<br> "Rows opon rows of neatly planted apple trees span the field.";<br><br>noun apple;<br>item itm_Apple (apple) "A shiny red delicious" rm_AppleOrchard;</pre>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      <p>A shortcut for placing items in the last created room,
+is to leave off the
+room placement.</p>
+
+      <p>eg;</p>
+
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>
+            <pre>room rm_AppleOrchard<br> "Rows opon rows of neatly planted apple trees span the field.";<br><br>noun apple;<br>item itm_Apple (apple) "A shiny red delicious";</pre>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      <p>To place an item in the players inventory, use the
+keyword
+"player" instead of "void" or the room name.</p>
+
+      </div>
+
+      <a name="The Torch"></a>
+      <h2>The Torch</h2>
+
+      <div style="margin-left: 2em;">To make an item a
+light source, you need to add
+the (light) tag to it. <span style="font-weight: bold;">*NOTE*</span> Only one single item can be the light
+source in
+the game.
+      <p>eg:</p>
+
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>item(light) Torch "Unlit torch" void;</td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      <p>This says we have an item with an internal name "Torch"
+and its
+currently in location 0 (void).</p>
+
+      </div>
+
+      <a name="Light Time"></a>
+      <h2>Light Time</h2>
+
+      <div style="margin-left: 2em;">You can change how
+many turns the light will
+'burn' for with the command
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>light_time = value;</td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      <p>eg:</p>
+
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>light_time = 10;</td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      <p>Every time you do a 'refill', that many turns will be
+accredited
+to the light object.</p>
+
+      </div>
+
+      <a name="Max Items Carried"></a>
+      <h2>Max Items Carried</h2>
+
+      <div style="margin-left: 2em;">To change how many
+items you can carry, use the
+max_load statement.
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>eg: max_load = 6</td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      </div>
+
+      <a name="Treasures" id="Treasures"></a>
+      <h2>Treasures</h2>
+
+      <div style="margin-left: 2em;">When creating items,
+if you prefix the name
+with a star, '*', that denotes the item is a treasure.
+      <p>When you run the internal command ".score" you are
+asking the
+game how many treasures have been stored in the treasure room.</p>
+
+      </div>
+
+      <a name="Code" id="Code"></a>
+      <h2>Code</h2>
+
+      <div style="margin-left: 2em;">There are two kinds
+of code routines, explicit
+and implicit.
+      <p>Implicit code is called each turn, and is denoted by a
+random number.</p>
+
+      <p>eg:</p>
+
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>
+            <pre>act auto 100<br>{<br>}</pre>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      <p>will run 100% of the time.</p>
+
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>
+            <pre>act auto 90<br>{<br>}</pre>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      <p>will run if a random number is &lt; 90 (thus 90%
+chance).</p>
+
+      <p>explicit code is run when the user types some input and
+is of the form
+of,</p>
+
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>
+            <pre>act VERB NOUN<br>{<br>}</pre>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      <p>There is a special noun the compiler creates called
+"any", and
+allows you to have single verb commands.</p>
+
+      <p>eg:</p>
+
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>
+            <pre>act look any<br>{<br> .room;<br>}</pre>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      <p>allows the player to type "look" instead of "look
+room" etc.</p>
+
+      </div>
+
+      <a name="Hints" id="Hints"></a>
+      <h2>Hints</h2>
+&nbsp;&nbsp;&nbsp; These two tips will help you save space by replacing
+three byte functions with two byte functions (In these games, every
+byte counts)
+      <div style="margin-left: 2em;">
+      <ul>
+
+        <li>If you want to move an item to the room your
+currently in, use drop
+{item} rather than move {room}, {item}.</li>
+
+        <li>Same if you want to remove an item, ZAP it rather
+than move it to void.</li>
+
+      </ul>
+
+      </div>
+
+      <a name="Timers" id="Timers"></a>
+      <h2>Timers</h2>
+
+      <div style="margin-left: 2em;">The game has 17
+timers. It has 16 stored timers
+and the "current" timer.... Timers are swapped, rather than
+selected (unfortunatly).
+      <p>Be very carefull when using timers that they dont get
+switched around.</p>
+
+      <p>Best practice suggestes,</p>
+
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>
+            <pre>act my act<br>{<br> # load timer<br> swap t_Timer;<br><br> try<br> {<br> # in place code...<br> }<br><br> # put it back<br> swap t_Timer;<br>}</pre>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      </div>
+
+      <a name="Flags" id="Flags"></a>
+      <h2>Flags</h2>
+
+      <div style="margin-left: 2em;">There are 31
+available flags in the game.
+      <p>You can use flags for anything boolean (on/off) etc.</p>
+
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>flag f_MyFlag;</td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      <p>There are two special flags in the game, the night flag
+and the flag
+marking the lightsource has run out of power.</p>
+
+      <p>If you set the darkness flag, then the game requires you
+to have the
+lightsource in the available room or in your inventory.</p>
+
+      <p>When your lightsource expires flag 16 is set for you, so
+you can swap it
+out with the expired light object. A code example from Adventureland;</p>
+
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>
+            <pre>act auto 100<br>{<br> set (f_LightRunout);<br> off f_LightRunout;<br> swap itm_060, itm_009; # Empty lamp, Lit brass lamp<br><br>}</pre>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      <p>The above snippet tests, every turn, to see if the lamp has just expired, and if so, replaces the lit lamp with the unlit lamp.</p>
+      <p>The tags night and runout are what you will use.</p>
+
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>
+            <pre>flag (night) f_Darkness;<br>flag (runout) f_LightRunout;</pre>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      <p>For other information, see <a href="#The%20Torch">The
+Torch</a> and
+      <a href="#Light%20Time">Light Time</a></p>
+
+      </div>
+
+      <a name="Strings" id="Strings"></a>
+      <h2>Strings</h2>
+
+      <div style="margin-left: 2em;">The compiler reduces
+duplicate strings, so the
+use of alias is more or less depreciated.
+      <p>When a slash "\" is embedded in a string, it will be
+printed out
+as a space.</p>
+
+      <p>eg;</p>
+
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>
+            <pre>"B\O\O\M\\\\\\BANG" =&gt; "B O O M BANG"</pre>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      <p>Strings can be aliased to reference the same string in
+more than once
+place. (Note, the compiler will do this automatically when it finds
+duplicate
+strings).</p>
+
+      <table class="code">
+
+        <tbody>
+
+          <tr>
+
+            <td>
+            <pre>alias msg_Message1 = "This is my string";<br><br>act auto 100<br>{<br> # print message<br> msg_Message1;<br>}</pre>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      </div>
+
+      <a name="Reference" id="Reference"></a>
+      <h2>Reference</h2>
+
+      <pre>(RCS ID: $Id: MANUAL,v 1.1 1996/10/17 05:53:18 bjorn Exp $)<br><br>CONDITIONS<br>----------<br><br>All conditions take one argument, except "something" and "nothing".<br><br>Name Checks for<br>---- ----------<br>has Item &lt;arg&gt; is carried by player.<br>here Item &lt;arg&gt; is in the current room.<br>avail Item &lt;arg&gt; available, i.e. carried or in the current room.<br>!here Item &lt;arg&gt; is not in the current room.<br>!has Item &lt;arg&gt; is not carried by player.<br>!avail Item &lt;arg&gt; unavailable, i.e. neither carried nor in the current<br> room.<br>exists Item &lt;arg&gt; is in a real room or carried by<br> the player, as opposed to in the store-room (room zero).<br>!exists Item &lt;arg&gt; is in the store-room (room zero).<br>in Player is in room &lt;arg&gt;.<br>!in Player is not in room &lt;arg&gt;.<br>set Flag &lt;arg&gt; is set.<br>!set Flag &lt;arg&gt; is cleared.<br>something (Takes no argument) The player is carrying something.<br>nothing (Takes no argument) The player is carrying nothing.<br>le The timer (or current counter) is less or equal to the number &lt;arg&gt;.<br>gt The timer is greater the number &lt;arg&gt;.<br>eq The timer is equal to the number &lt;arg&gt;.<br>!moved Item &lt;arg&gt; has not been moved from its initial room.<br>moved Item &lt;arg&gt; has been moved from its.<br><br><br>OPERATIONS<br>----------<br><br>Moving operations<br>=================<br>Name Does<br>---- ----<br>get Checked get of item. Give item &lt;arg&gt; to the player, provided the<br> item is in the current room and that the player can carry one more<br> item.<br>steal Unchecked get. Like "get", but no check is made that the player<br> can carry it.<br>drop If the player is carrying item &lt;arg&gt;, put it in the current room.<br>goto Move player to room &lt;arg&gt;.<br>zap Item &lt;arg&gt; is removed from the game (put in the store-room).<br>move Move item &lt;arg1&gt; to room &lt;arg2&gt;.<br>swap Swap owners of items &lt;arg1&gt; and &lt;arg2&gt;.<br>swap Swap the current room with saved room in room register &lt;arg&gt;.<br> [Note 4.]<br>same Put item &lt;arg1&gt; in the same room as item &lt;arg2&gt;.<br> (if &lt;arg2&gt; is in inventory, &lt;arg1&gt; will go to inventory)<br><br><br>Flag operations<br>===============<br>Name Does<br>---- ----<br>on Turn on the flag &lt;arg&gt;. To turn on the darkness flag, turn on the<br> flag marked as darkness flag. [Note 1]<br>off Turn off the flag &lt;arg&gt;. To turn off the darkness flag, turn off the<br> flag marked as darkness flag. [Note 1]<br><br>Timer operations<br>================<br>Name Does<br>---- ----<br>add += Add number &lt;arg&gt; to the timer. [Note 3]<br>sub -= Subtract number &lt;arg&gt; from the timer. [Note 3]<br>timer = Set time to number &lt;arg&gt;. The highest value allowed is 255. If<br> you need to set the timer to, say, 300, first set it to 200 and<br> then use "add" to add 100 to it. [Note 2.]<br>swap Swap the timer with timer register &lt;arg&gt;. [Note 4.]<br><br>See also: ".timer" for printing a timer.<br><br>Printing<br>========<br>Name Does<br>---- ----<br>.score Show the score accumulated so far. Will end the game if the score<br> is 100.<br>.room Redisplay the description of the room.<br>.noun Echo the noun the player typed.<br>.noun_nl Echo the noun the player typed followed by a newline.<br>.nl Print a newline.<br>.inv Show inventory.<br>.timer Print the current value of the timer.<br>cls (Only in the TRS-80 format.) Clears the screen.<br> Effect varies from interpreter to interpeter, from no effect and<br> upwards.<br><br><br>Ending the game<br>===============<br>Name Does<br>---- ----<br>die Kill player: Move him/her to the last room, turn on light and<br> (for TI-99/4) change the screen to the blood-red color.<br> This does not necessarily end the game; some games "support"<br> resurrection. Use "quit" after "die" to end the game.<br><br>ignore [Must check this.] Don't change the color of the screen at "quit".<br> Only in TI-99/4 format.<br>success [Must check this.] At next "quit", change the screen to indicate<br> success.<br> [Must find out which color it is.] Only in TI-99/4 format.<br>quit End the game.<br><br>See also: .score (in Printing)<br><br>Miscellanous<br>============<br>Name Does<br>---- ----<br>end Ends the current logic here<br>try See special description.<br>save Save game.<br>refill Refill the lamp (or other light source).<br>delay Two-second delay.<br>inv Turns on automatic inventory. Only in TI-99/4 format.<br> (This is default.)<br>!inv Turns off automatic inventory. Only in TI-99/4 format.<br> This is used in the Scott Adams adventure "Mission Impossible",<br> so that you must do a manual inventory if you want to see the bomb<br> detector. Note that TRS-80 interpreters never show the inventory<br> automatically.<br>pic (For the TRS-80 format only.) Shows picture number &lt;arg&gt;, if the<br> interpreter provides pictures. How the pictures, if any, are<br> stored depends on the interpreter.<br>nop No operation.<br><br><br>Note 1: The compiler will generate the correct SET_BIT or SET_NIGHT<br> action depending on the number on the flag. The same<br> applies to "off".<br><br>Note 2: This limitation is due to the TI-99/4 format, in which<br> arguments are stored in a single byte. The TRS-80 format<br> allows bigger values.<br><br>Note 3: The interpreter for TI-99/4 has two argument-less operations<br> to increment by one and to decrement by one, as well as the<br> general operations which takes an argument. The compiler will<br> automatically choose the shorter operations if the value is<br> one. The TRS-80 format has a short operation for decrementing<br> the counter, but not for incrementing.<br><br>Note 4: "Swap" is used to denote three different operation in the<br> interpreter. The compiler has no troble keeping them apart,<br> because the arguments have different types.<br> If you want it to be easy for a human, too, to spot<br> the difference, I suggest naming the room registers starting<br> with rr_ and the timer registers starting with tr_.</pre>
+
+      </div>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td>&nbsp;</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+</div>
+
+</body>
+</html>

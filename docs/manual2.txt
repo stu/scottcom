@@ -1,0 +1,467 @@
+[Note: the manual.html outdates this text file]
+
+This is a basic manual for ScottCom v2.01
+
+ScottCom is a compiler that creates game files for use on the
+TI99/4A Scott Adams Adventure module, or for playing on the
+Bunyon interpreter.
+
+Index
+=====
+General
+Nouns
+Verbs
+Rooms
+Items
+How items are placed
+The Torch
+Light Time
+Max Carried
+Treasures
+Code
+Hints
+Timers
+Strings
+
+General
+=======
+Rooms must be forward declared before you can reference them in code.
+
+The directional nouns must be declared before any other noun.
+
+The verbs for GO, DROP, and GET are specially handled by the driver
+and they must be declared before any other verb.
+
+
+
+Nouns
+=====
+Nouns are declared as
+
+noun word, synonym;
+
+eg:
+
+noun knife;
+
+or
+
+noun knife, machete, blade, boxcutter;
+
+The interpreter expects certain nouns to be in a certain position in the
+dictionary so its best practice to declare them right at the start.
+
+noun(north) north;
+noun(south) south;
+noun(east)  east;
+noun(west)  west;
+noun(up)    up;
+noun(down)  down;
+
+The interpreter itself handles n/s/e/w as synonyms internally so you dont
+need to declare them.
+
+
+Verbs
+=====
+Verbs are declared just like nouns;
+
+verb word, synonym;
+
+eg:
+
+verb inventory, inv, i;
+
+where inv and i and synonyms for inventory
+
+The interpreter expects some verbs to be at a certain position in the
+dictionary.
+
+verb(go)    go;
+verb(drop)  drop;
+verb(get)   get, take;
+
+
+Rooms
+=====
+Rooms are simple creations;
+
+room [INTERNAL_ROOM_NAME] "DESCRIPTION",
+	[exit];
+
+where exit is defined as "n_to", "s_to", "e_to", "w_to".
+
+example;
+
+room rm_AppleOrchard
+	"Rows opon rows of neartly planted apple trees span the field.",
+	s_to rm_FarmYard,
+	e_to rm_AppleOrchard,
+	w_to rm_AppleOrchard,
+	n_to rm_AppleOrchard;
+
+Remember to close off the last with a ";" and separate all with commas.
+
+If your room description starts with "I'm in a", it will be removed
+by the compiler, as the interpreter has a special code to print this
+(and save space in the game).
+
+The last room in the game is the "dead" room, where you go when you die.
+
+Treasure Room
+=============
+Most scott adams games were about storing treasures in a certain location.
+This location is defined with the command
+
+treasure = room_name;
+
+The room must exist before you can define it as a treasure room.
+
+Initial Start Room
+==================
+Just like marking a treasure room, you do the same for the start location,
+
+initial = room_name;
+
+Same conditions apply, the room must be pre-defined.
+
+
+Items
+=====
+Items are things a player can carry around with them.
+They are defined as;
+
+item [INTERNAL_ITEM_NAME](NOUN) "ITEM DESCRIPTION" [OPTIONAL_START_ROOM];
+
+Lets create a simple apple.
+
+item itm_Apple "A shiny red delicious" void;
+
+In order for it to be of any use in the game, we need to attach the apple
+to a noun.
+
+First, lets declare the noun.
+
+noun apple;
+^^^^^^^^^^^
+
+item itm_Apple (apple) "A shiny red delicious" void;
+               ^^^^^^^
+
+This means, when a player types "GET APPLE" the game knows how to connect
+the text "apple" to the item itm_Apple.
+
+How items are placed
+====================
+Items are placed into rooms several ways, you can move them via code,
+or you can place them in the source definition.
+
+Using our apple example;
+
+noun apple;
+item itm_Apple (apple) "A shiny red delicious" void;
+
+the "void" at the end, tells the compiler to start the apple in the void,
+a non-existant room thats used as a storage cabinet, it means the item
+does not exist in the game.
+
+You can replace the "void" for an internal room name, providing that room
+has already been described.
+
+room rm_AppleOrchard
+	"Rows opon rows of neartly planted apple trees span the field.";
+
+noun apple;
+item itm_Apple (apple) "A shiny red delicious" rm_AppleOrchard;
+
+A shortcut for placing items in the last created room, is to leave off
+the room placement.
+
+eg;
+
+room rm_AppleOrchard
+	"Rows opon rows of neartly planted apple trees span the field.";
+
+noun apple;
+item itm_Apple (apple) "A shiny red delicious";
+
+To place an item in the players inventory, use the keyword "player" instead
+of "void" or the room name.
+
+
+The Torch
+=========
+To make an item a light source, you need to add the (light) tag to it.
+*NOTE* Only one single item can be the light source in the game.
+
+eg:
+
+item(light) Torch "Unlit torch" void;
+
+This says we have an item with an internal name "Torch" and its
+currently in location 0 (void).
+
+
+Light Time
+==========
+You can change how many turns the light will 'burn' for with the command
+
+light_time = value;
+
+eg:
+light_time = 10;
+
+Every time you do a 'refill', that many turns will be accredited to the light
+object.
+
+
+Max Items Carried
+=================
+To change how many items you can carry, use the max_load statement.
+
+eg: max_load = 6
+
+
+Treasures
+=========
+When creating items, if you prefix the name with a star, '*',
+that denotes the item is a treasure.
+
+When you run the internal command ".score" you are asking the game
+how many treasures have been stored.
+
+
+Code
+====
+There are two kinds of code routines, explicit and implicit.
+
+Implicit code is called each turn, and is denoted by a random number.
+
+eg:
+
+act auto 100
+{
+}
+
+will run 100% of the time.
+
+act auto 90
+{
+}
+
+will run if a random number is < 90 (thus 90% chance).
+
+
+explicit code is run when the user types some input and is of the form of,
+
+act VERB NOUN
+{
+}
+
+There is a special noun the compiler creates called "any", and allows you
+to have single verb commands.
+
+eg:
+
+act look any
+{
+	.room;
+}
+
+allows the player to type "look" instead of "look room" etc.
+
+
+Hints
+=====
+* If you want to move an item to the room your currently in, use
+  drop {item} rather than move {room}, {item}.
+
+* Same if you want to remove an item, ZAP it rather than move it to limbo.
+
+
+Timers
+======
+The game has 17 timers. It has 16 stored timers and the "current" timer....
+Timers are swapped, rather than selected (unfortunatly).
+
+Be very carefull when using timers that they dont get switched around.
+
+Best practice suggestes,
+
+act my act
+{
+	# load timer
+	swap t_Timer;
+
+	try
+	{
+		# in place code...
+	}
+
+	# put it back
+	swap t_Timer;
+}
+
+Strings
+=======
+The compiler reduces duplicate strings, so the use of alias is more or less
+depreciated.
+
+When a slash "\" is embedded in a string, it will be printed out as a space.
+
+
+(RCS ID: $Id: MANUAL,v 1.1 1996/10/17 05:53:18 bjorn Exp $)
+
+CONDITIONS
+----------
+
+All conditions take one argument, except "something" and "nothing".
+
+Name		Checks for
+----		----------
+has 		Item <arg> is carried by player.
+here		Item <arg> is in the current room.
+avail		Item <arg> available, i.e. carried or in the current room.
+!here		Item <arg> is not in the current room.
+!has		Item <arg> is not carried by player.
+!avail		Item <arg> unavailable, i.e. neither carried nor in the current
+		room.
+exists		Item <arg> is in a real room or carried by
+		the player, as opposed to in the store-room (room zero).
+!exists		Item <arg> is in the store-room (room zero).
+in		Player is in room <arg>.
+!in		Player is not in room <arg>.
+set		Flag <arg> is set.
+!set		Flag <arg> is cleared.
+something 	(Takes no argument)  The player is carrying something.
+nothing 	(Takes no argument)  The player is carrying nothing.
+le		The timer (or current counter) is less or equal to the number <arg>.
+gt		The timer is greater the number <arg>.
+eq		The timer is equal to the number <arg>.
+!moved		Item <arg> has not been moved from its initial room.
+moved		Item <arg> has been moved from its.
+
+
+OPERATIONS
+----------
+
+Moving operations
+=================
+Name		Does
+----		----
+get		Checked get of item.  Give item <arg> to the player, provided the
+		item is in the current room and that the player can carry one more
+		item.
+steal		Unchecked get.  Like "get", but no check is made that the player
+		can carry it.
+drop		If the player is carrying item <arg>, put it in the current room.
+goto		Move player to room <arg>.
+zap		Item <arg> is removed from the game (put in the store-room).
+move		Move item <arg1> to room <arg2>.
+swap		Swap owners of items <arg1> and <arg2>.
+swap		Swap the current room with saved room in room register <arg>.
+		[Note 4.]
+same		Put item <arg1> in the same room as item <arg2>.
+		(if <arg2> is in inventory, <arg1> will go to inventory)
+
+
+Flag operations
+===============
+Name	Does
+----	----
+on		Turn on the flag <arg>.  To turn on the darkness flag, turn on the
+		flag marked as darkness flag.  [Note 1]
+off		Turn off the flag <arg>.  To turn off the darkness flag, turn off the
+		flag marked as darkness flag.  [Note 1]
+
+Timer operations
+================
+Name	Does
+----	----
+add	+=	Add number <arg> to the timer. [Note 3]
+sub	-=	Subtract number <arg> from the timer. [Note 3]
+timer	=	Set time to number <arg>.  The highest value allowed is 255.  If
+		you need to set the timer to, say, 300, first set it to 200 and
+		then use "add" to add 100 to it. [Note 2.]
+swap		Swap the timer with timer register <arg>. [Note 4.]
+
+See also: ".timer" for printing a timer.
+
+Printing
+========
+Name		Does
+----		----
+.score		Show the score accumulated so far.  Will end the game if the score
+		is 100.
+.room		Redisplay the description of the room.
+.noun		Echo the noun the player typed.
+.noun_nl 	Echo the noun the player typed followed by a newline.
+.nl		Print a newline.
+.inv		Show inventory.
+.timer		Print the current value of the timer.
+cls		(Only in the TRS-80 format.)  Clears the screen.
+		Effect varies from interpreter to interpeter, from no effect and
+		upwards.
+
+
+Ending the game
+===============
+Name		Does
+----		----
+die		Kill player: Move him/her to the last room, turn on light and
+		(for TI-99/4) change the screen to the blood-red color.
+		This does not necessarily end the game; some games "support"
+		resurrection. Use "quit" after "die" to end the game.
+
+ignore		[Must check this.] Don't change the color of the screen at "quit".
+		Only in TI-99/4 format.
+success		[Must check this.] At next "quit", change the screen to indicate
+		success.
+		[Must find out which color it is.]  Only in TI-99/4 format.
+quit		End the game.
+
+See also: .score (in Printing)
+
+Miscellanous
+============
+Name		Does
+----		----
+end		Ends the current logic here
+try		See special description.
+save		Save game.
+refill		Refill the lamp (or other light source).
+delay		Two-second delay.
+inv		Turns on automatic inventory.  Only in TI-99/4 format.
+		(This is default.)
+!inv		Turns off automatic inventory.  Only in TI-99/4 format.
+		This is used in the Scott Adams adventure "Mission Impossible",
+		so that you must do a manual inventory if you want to see the bomb
+		detector.  Note that TRS-80 interpreters never show the inventory
+		automatically.
+pic		(For the TRS-80 format only.)  Shows picture number <arg>, if the
+		interpreter provides pictures. How the pictures, if any, are
+		stored depends on the interpreter.
+nop		No operation.
+
+
+Note 1: The compiler will generate the correct SET_BIT or SET_NIGHT
+	action depending on the number on the flag.  The same
+	applies to "off".
+
+Note 2: This limitation is due to the TI-99/4 format, in which
+	arguments are stored in a single byte.  The TRS-80 format
+	allows bigger values.
+
+Note 3: The interpreter for TI-99/4 has two argument-less operations
+	to increment by one and to decrement by one, as well as the
+	general operations which takes an argument.  The compiler will
+	automatically choose the shorter operations if the value is
+	one.  The TRS-80 format has a short operation for decrementing
+	the counter, but not for incrementing.
+
+Note 4: "Swap" is used to denote three different operation in the
+	interpreter.  The compiler has no troble keeping them apart,
+	because the arguments have different types.
+	If you want it to be easy for a human, too, to spot
+	the difference, I suggest naming the room registers starting
+	with rr_ and the timer registers starting with tr_.
